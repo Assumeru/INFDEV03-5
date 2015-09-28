@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 public class Main {
 	public static void main(String[] args) {
 		Connection connection = new Connection(Persistence.createEntityManagerFactory("assignment1").createEntityManager());
+		connection.createServers();
 		new LoginScreen(connection).setVisible(true);
 	}
 }

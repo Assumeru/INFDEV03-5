@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -36,8 +35,6 @@ public class User {
 	private boolean banned;
 	@OneToMany
 	private List<Character> characters;
-	@ManyToOne
-	private Server server;
 
 	public String getName() {
 		return name;
@@ -125,13 +122,5 @@ public class User {
 
 	public void setCharacters(List<Character> characters) {
 		this.characters = characters;
-	}
-
-	public Server getServer() {
-		return server;
-	}
-
-	public void setServer(Server server) {
-		this.server = server;
 	}
 }

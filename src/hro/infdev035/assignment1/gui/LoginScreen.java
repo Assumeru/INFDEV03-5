@@ -4,6 +4,7 @@ import hro.infdev035.assignment1.database.Connection;
 import hro.infdev035.assignment1.entities.User;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,10 @@ public class LoginScreen extends JFrame {
 	private boolean register = false;
 	private JTextField username;
 	private JTextField password;
+	private JTextField firstname;
+	private JTextField lastname;
+	private JTextField iban;
+	private JPanel registration;
 	private JButton submit;
 	private Connection connection;
 
@@ -38,25 +43,28 @@ public class LoginScreen extends JFrame {
 		addForm();
 	}
 
+	private JTextField addTextField(Container container, String label) {
+		JTextField textField = new JTextField();
+		container.add(new JLabel(label));
+		container.add(textField);
+		return textField;
+	}
+
 	private void addForm() {
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(0, 2));
-		container.add(new JLabel("Username "));
-		username = new JTextField();
-		container.add(username);
+		username = addTextField(container, "Username ");
 		container.add(new JLabel("Password "));
 		password = new JPasswordField();
 		container.add(password);
-		add(container);
 		submit = new JButton("Login");
 		submit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				System.out.println(register);
 				if(!register) {
 					performLogin(username.getText(), password.getText());
 				} else {
-					performRegister(username.getText(), password.getText());
+					performRegistration(username.getText(), password.getText(), firstname.getText(), lastname.getText(), iban.getText());
 				}
 			}
 		});
@@ -81,10 +89,19 @@ public class LoginScreen extends JFrame {
 					submit.setText("Login");
 				}
 				register = !register;
+				registration.setVisible(register);
 			}
 		});
 		container.add(submit);
 		container.add(swap);
+		add(container);
+		registration = new JPanel();
+		registration.setLayout(new GridLayout(0, 2));
+		lastname = addTextField(registration, "Last name: ");
+		firstname = addTextField(registration, "First name: ");
+		iban = addTextField(registration, "IBAN: ");
+		add(registration);
+		registration.setVisible(false);
 	}
 
 	private boolean checkEntered(String username, String password) {
@@ -108,14 +125,29 @@ public class LoginScreen extends JFrame {
 		} else if(!user.getPassword().equals(password)) {
 			showWarning("Wrong password", "Login error");
 		} else {
-			//TODO 
+			login(user);
 		}
 	}
 
-	private void performRegister(String username, String password) {
+	private void login(User user) {
+		new ManagementScreen(connection, user).setVisible(true);;
+		setVisible(false);
+	}
+
+	private void performRegistration(String username, String password, String firstName, String lastName, String iban) {
 		if(!checkEntered(username, password)) {
 			return;
+		} else if(firstName.isEmpty()) {
+			showWarning("Please enter a first name", "Registration error");
+			return;
+		} else if(lastName.isEmpty()) {
+			showWarning("Please enter a last name", "Registration error");
+			return;
+		} else if(iban.isEmpty()) {
+			showWarning("Please enter your IBAN", "Registration error");
+			return;
 		}
+		login(connection.newUser(username, password, firstName, lastName, iban));
 	}
 
 	private void showWarning(String message, String title) {
