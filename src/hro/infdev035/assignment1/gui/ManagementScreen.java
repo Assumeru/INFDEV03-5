@@ -12,6 +12,12 @@ public class ManagementScreen extends JFrame {
 	private User user;
 	private UserManagement userManagement;
 
+	/**
+	 * Creates a new ManagementScreen with a UserManagement and CharacterManagement tab.
+	 * 
+	 * @param connection
+	 * @param user
+	 */
 	public ManagementScreen(Connection connection, User user) {
 		this.connection = connection;
 		this.user = user;

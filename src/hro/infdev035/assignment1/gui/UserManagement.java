@@ -38,11 +38,19 @@ public class UserManagement extends JPanel {
 		add(getSlotsButton());
 	}
 
+	/**
+	 * Changes the User's balance and updates the balance label.
+	 * 
+	 * @param amount
+	 */
 	private void changeBalance(double amount) {
 		parent.getConnection().changeBalance(parent.getUser(), amount);
 		balance.setText(String.valueOf(parent.getUser().getBalance()));
 	}
 
+	/**
+	 * @return The Add money button with its ActionListener
+	 */
 	private JButton getBalanceButton() {
 		JButton button = new JButton("Add money");
 		button.addActionListener(new ActionListener() {
@@ -52,11 +60,13 @@ public class UserManagement extends JPanel {
 				do {
 					String input = JOptionPane.showInputDialog(parent, "How much money do you want to add?", "Get rich quick", JOptionPane.QUESTION_MESSAGE);
 					if(input == null) {
+						//User clicked Cancel
 						return;
 					}
 					try {
 						money = Double.parseDouble(input);
 					} catch(NumberFormatException e) {}
+					//Loop while number if invalid
 				} while(money < 0);
 				changeBalance(money);
 			}
@@ -64,6 +74,9 @@ public class UserManagement extends JPanel {
 		return button;
 	}
 
+	/**
+	 * @return The Add subscription button with its ActionListener
+	 */
 	private JButton getSubscriptionButton() {
 		JButton button = new JButton("Add subscription");
 		button.addActionListener(new ActionListener() {
@@ -72,8 +85,10 @@ public class UserManagement extends JPanel {
 				Subscription sub = (Subscription) JOptionPane.showInputDialog(parent, "Subscribe for", "Add subscription", JOptionPane.QUESTION_MESSAGE, null, subscriptions, null);
 				if(sub != null) {
 					User user = parent.getUser();
+					//Check if the User's balance is high enough
 					if(user.getBalance() >= sub.getPrice()) {
 						parent.getConnection().addSubscription(user, sub);
+						//Update labels
 						balance.setText(String.valueOf(user.getBalance()));
 						slots.setText(String.valueOf(user.getCharacterSlots()));
 					} else {
@@ -91,8 +106,10 @@ public class UserManagement extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				User user = parent.getUser();
+				//Check if the User's balance is high enough
 				if(user.getBalance() >= 1) {
 					parent.getConnection().addSlot(user);
+					//Update labels
 					balance.setText(String.valueOf(user.getBalance()));
 					slots.setText(String.valueOf(user.getCharacterSlots()));
 				} else {

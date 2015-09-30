@@ -26,6 +26,12 @@ public class CharacterList extends JPanel {
 	private JLabel server;
 	private JPanel stats;
 
+	/**
+	 * Creates a new CharacterList dropdown.
+	 * Appends a Character stats screen to the parent.
+	 * 
+	 * @param parent
+	 */
 	public CharacterList(CharacterManagement parent) {
 		parent.add(new JScrollPane(getStats()), BorderLayout.CENTER);
 		characters = new JComboBox<Character>();
@@ -35,6 +41,13 @@ public class CharacterList extends JPanel {
 		updateCharacters();
 	}
 
+	/**
+	 * Adds two labels to a container.
+	 * 
+	 * @param container
+	 * @param label
+	 * @return The empty label
+	 */
 	private JLabel addField(Container container, String label) {
 		JLabel field = new JLabel();
 		container.add(new JLabel(label));
@@ -42,6 +55,11 @@ public class CharacterList extends JPanel {
 		return field;
 	}
 
+	/**
+	 * Creates the stats panel.
+	 * 
+	 * @return The stats panel
+	 */
 	private JPanel getStats() {
 		stats = new JPanel();
 		stats.setLayout(new GridLayout(5, 0));
@@ -50,10 +68,14 @@ public class CharacterList extends JPanel {
 		prof = addField(stats, "Class: ");
 		race = addField(stats, "Race: ");
 		server = addField(stats, "Server: ");
+		//Hide until a Character has been selected
 		stats.setVisible(false);
 		return stats;
 	}
 
+	/**
+	 * @return The View (Character) button with its ActionListener
+	 */
 	private JButton getSelectButton() {
 		JButton button = new JButton("View");
 		button.addActionListener(new ActionListener() {
@@ -69,6 +91,9 @@ public class CharacterList extends JPanel {
 		return button;
 	}
 
+	/**
+	 * Updates the dropdown from the database.
+	 */
 	public void updateCharacters() {
 		List<Character> chars = parent.getConnection().getCharactersByLevel(parent.getUser());
 		if(chars != null && chars.size() > 0) {
@@ -80,6 +105,11 @@ public class CharacterList extends JPanel {
 		setVisible(chars != null && chars.size() > 0);
 	}
 
+	/**
+	 * Displays a Character's stats.
+	 * 
+	 * @param selected
+	 */
 	private void showStatsFor(Character selected) {
 		level.setText(String.valueOf(selected.getLevel()));
 		name.setText(selected.getName());

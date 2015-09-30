@@ -43,6 +43,13 @@ public class LoginScreen extends JFrame {
 		addForm();
 	}
 
+	/**
+	 * Adds a text field and label to a container.
+	 * 
+	 * @param container
+	 * @param label
+	 * @return The created text field
+	 */
 	private JTextField addTextField(Container container, String label) {
 		JTextField textField = new JTextField();
 		container.add(new JLabel(label));
@@ -50,6 +57,9 @@ public class LoginScreen extends JFrame {
 		return textField;
 	}
 
+	/**
+	 * Adds the login form and registers ActionListeners.
+	 */
 	private void addForm() {
 		JPanel container = new JPanel();
 		container.setLayout(new GridLayout(0, 2));
@@ -104,6 +114,13 @@ public class LoginScreen extends JFrame {
 		registration.setVisible(false);
 	}
 
+	/**
+	 * Displays a warning dialog if username or password is empty.
+	 * 
+	 * @param username
+	 * @param password
+	 * @return False if username or password is empty
+	 */
 	private boolean checkEntered(String username, String password) {
 		if(username.isEmpty()) {
 			showWarning("Please enter a username", "Error");
@@ -115,6 +132,12 @@ public class LoginScreen extends JFrame {
 		return true;
 	}
 
+	/**
+	 * Logs a User in.
+	 * 
+	 * @param username
+	 * @param password
+	 */
 	private void performLogin(String username, String password) {
 		if(!checkEntered(username, password)) {
 			return;
@@ -129,11 +152,25 @@ public class LoginScreen extends JFrame {
 		}
 	}
 
+	/**
+	 * Opens the management screen, hiding the login screen.
+	 * 
+	 * @param user
+	 */
 	private void login(User user) {
 		new ManagementScreen(connection, user).setVisible(true);;
 		setVisible(false);
 	}
 
+	/**
+	 * Creates a new User and logs them in.
+	 * 
+	 * @param username
+	 * @param password
+	 * @param firstName
+	 * @param lastName
+	 * @param iban
+	 */
 	private void performRegistration(String username, String password, String firstName, String lastName, String iban) {
 		if(!checkEntered(username, password)) {
 			return;
@@ -150,6 +187,12 @@ public class LoginScreen extends JFrame {
 		login(connection.newUser(username, password, firstName, lastName, iban));
 	}
 
+	/**
+	 * Shows a warning dialog.
+	 * 
+	 * @param message
+	 * @param title
+	 */
 	private void showWarning(String message, String title) {
 		JOptionPane.showConfirmDialog(this, message, title, JOptionPane.WARNING_MESSAGE);
 	}
