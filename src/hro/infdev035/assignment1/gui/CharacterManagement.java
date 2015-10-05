@@ -50,7 +50,7 @@ public class CharacterManagement extends JPanel {
 					JOptionPane.showConfirmDialog(parent, "Server is full", "Connect error", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				parent.getConnection().connect(server);
+				parent.getConnection().connect(server, getParentScreen().getUser());
 			}
 		});
 		return button;

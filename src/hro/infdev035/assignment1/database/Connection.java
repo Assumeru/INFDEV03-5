@@ -5,6 +5,7 @@ import hro.infdev035.assignment1.entities.Server;
 import hro.infdev035.assignment1.entities.Subscription;
 import hro.infdev035.assignment1.entities.User;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -163,10 +164,27 @@ public class Connection {
 	 * Increases the number of connected Users by one.
 	 * 
 	 * @param server
+	 * @param user
 	 */
-	public void connect(Server server) {
+	public void connect(Server server, User user) {
 		manager.getTransaction().begin();
 		server.setConnectedUsers(server.getConnectedUsers() + 1);
+		if(server.getUsers() == null) {
+			server.setUsers(new ArrayList<User>());
+		}
+		server.getUsers().add(user);
 		manager.getTransaction().commit();
+	}
+
+	public Server createServer(String address, String name, String location, long maxUsers) {
+		Server server = new Server();
+		server.setAddress(address);
+		server.setName(name);
+		server.setLocation(location);
+		server.setMaxUsers(maxUsers);
+		manager.getTransaction().begin();
+		manager.persist(server);
+		manager.getTransaction().commit();
+		return server;
 	}
 }
