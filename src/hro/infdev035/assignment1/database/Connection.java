@@ -148,6 +148,16 @@ public class Connection {
 	}
 
 	/**
+	 * Checks if a User with the given name exists.
+	 * 
+	 * @param name
+	 * @return True if the User name is taken
+	 */
+	public boolean nameTaken(String name) {
+		return manager.find(User.class, name) != null;
+	}
+
+	/**
 	 * Persists a Character, reduces the owner's character slots by 1.
 	 * @param character
 	 */
@@ -186,5 +196,9 @@ public class Connection {
 		manager.persist(server);
 		manager.getTransaction().commit();
 		return server;
+	}
+
+	public EntityManager getManager() {
+		return manager;
 	}
 }

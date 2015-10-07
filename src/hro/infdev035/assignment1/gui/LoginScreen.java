@@ -183,6 +183,9 @@ public class LoginScreen extends JFrame {
 		} else if(iban.isEmpty()) {
 			showWarning("Please enter your IBAN", "Registration error");
 			return;
+		} else if(connection.nameTaken(username)) {
+			showWarning("This name is taken, please select another", "Registration error");
+			return;
 		}
 		login(connection.newUser(username, password, firstName, lastName, iban));
 	}

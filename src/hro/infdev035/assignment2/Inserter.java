@@ -43,7 +43,7 @@ public class Inserter implements Runnable {
 	private long insertServers(int amount) {
 		long time = System.currentTimeMillis();
 		for(int n = 0; n < amount; n++) {
-			servers.add(connection.createServer(getRandomString(), getRandomString(), getRandomString(), random.nextLong()));
+			servers.add(connection.createServer(String.valueOf(n), getRandomString(), getRandomString(), random.nextLong()));
 		}
 		return System.currentTimeMillis() - time;
 	}
@@ -51,7 +51,7 @@ public class Inserter implements Runnable {
 	private long insertUsers(int amount) {
 		long time = System.currentTimeMillis();
 		for(int n = 0; n < amount; n++) {
-			users.add(connection.newUser(getRandomString(), getRandomString(), getRandomString(), getRandomString(), getRandomString()));
+			users.add(connection.newUser(String.valueOf(n), getRandomString(), getRandomString(), getRandomString(), getRandomString()));
 		}
 		return System.currentTimeMillis() - time;
 	}
@@ -61,7 +61,7 @@ public class Inserter implements Runnable {
 		for(int n = 0; n < amount; n++) {
 			Character newChar = new Character();
 			newChar.setLevel(random.nextInt());
-			newChar.setName(getRandomString());
+			newChar.setName(String.valueOf(n));
 			newChar.setOwner(users.get(random.nextInt(times)));
 			newChar.setProfession(getRandomString());
 			newChar.setRace(getRandomString());
