@@ -100,7 +100,7 @@ public class Main {
 	}
 
 	/**
-	 * Tests selecting Characters by level with an index on owner_name.
+	 * Tests selecting Characters by level with an index on owner_name, level.
 	 * 
 	 * @param connection
 	 */
@@ -115,7 +115,7 @@ public class Main {
 			@Override
 			protected void createIndex() {
 				connection.getManager().getTransaction().begin();
-				connection.getManager().createNativeQuery("CREATE INDEX index3 ON characters USING hash(owner_name)").executeUpdate();
+				connection.getManager().createNativeQuery("CREATE INDEX index3 ON characters USING btree(owner_name, level)").executeUpdate();
 				connection.getManager().getTransaction().commit();
 			}
 
@@ -126,7 +126,7 @@ public class Main {
 				connection.getManager().getTransaction().commit();
 			}
 		};
-		System.out.println("Index on characters.owner_name");
+		System.out.println("Index on characters.owner_name, level");
 		new Tester(test, TEST_TIMES).run();
 	}
 }
