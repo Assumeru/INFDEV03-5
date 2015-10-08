@@ -3,6 +3,9 @@ package hro.infdev035.assignment2;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that runs {@link Test}s repeatedly keeping track of execution time.
+ */
 public class Tester implements Runnable {
 	private Test test;
 	private int times;
@@ -23,6 +26,9 @@ public class Tester implements Runnable {
 		System.out.println(result);
 	}
 
+	/**
+	 * Helper class that can compute average execution time.
+	 */
 	private static class Result {
 		private List<Long> before;
 		private List<Long> after;

@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class that inserts random data into the database for testing.
+ */
 public class Inserter implements Runnable {
 	private Connection connection;
 	private int times;
@@ -31,6 +34,9 @@ public class Inserter implements Runnable {
 		System.out.println("Characters in: " + insertCharacters(times) + " ms");
 	}
 
+	/**
+	 * @return A random string of length [14, 63]
+	 */
 	private String getRandomString() {
 		StringBuilder builder = new StringBuilder();
 		int length = random.nextInt(50) + 14;
@@ -40,27 +46,48 @@ public class Inserter implements Runnable {
 		return builder.toString();
 	}
 
+	/**
+	 * Inserts random Servers into the database.
+	 * 
+	 * @param amount The number of Servers to create
+	 * @return The insertion time in milliseconds
+	 */
 	private long insertServers(int amount) {
 		long time = System.currentTimeMillis();
 		for(int n = 0; n < amount; n++) {
+			//Use n as address to prevent primary key conflicts
 			servers.add(connection.createServer(String.valueOf(n), getRandomString(), getRandomString(), random.nextLong()));
 		}
 		return System.currentTimeMillis() - time;
 	}
 
+	/**
+	 * Inserts random Users into the database.
+	 * 
+	 * @param amount The number of Users to create
+	 * @return The insertion time in milliseconds
+	 */
 	private long insertUsers(int amount) {
 		long time = System.currentTimeMillis();
 		for(int n = 0; n < amount; n++) {
+			//Use n as username to prevent primary key conflicts
 			users.add(connection.newUser(String.valueOf(n), getRandomString(), getRandomString(), getRandomString(), getRandomString()));
 		}
 		return System.currentTimeMillis() - time;
 	}
 
+	/**
+	 * Inserts random Characters into the database.
+	 * 
+	 * @param amount The number of Characters to create
+	 * @return The insertion time in milliseconds
+	 */
 	private long insertCharacters(int amount) {
 		long time = System.currentTimeMillis();
 		for(int n = 0; n < amount; n++) {
 			Character newChar = new Character();
 			newChar.setLevel(random.nextInt());
+			//Use n as name to prevent primary key conflicts
 			newChar.setName(String.valueOf(n));
 			newChar.setOwner(users.get(random.nextInt(times)));
 			newChar.setProfession(getRandomString());

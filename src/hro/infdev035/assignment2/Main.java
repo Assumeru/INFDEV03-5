@@ -13,6 +13,12 @@ public class Main {
 	private static final int DROPDOWN_TIMES = 1000;
 	private static final int CHARACTER_TIMES = 1000000;
 
+	/**
+	 * Program entry point.
+	 * Re-uses the database connection and entities from assignment 1.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Connection connection = new Connection(Persistence.createEntityManagerFactory("assignment1").createEntityManager());
 		new Inserter(connection, 1000).run();
@@ -20,6 +26,12 @@ public class Main {
 		testCharacterManagement(connection);
 	}
 
+	/**
+	 * Runs all registration tests.
+	 * Tests selecting Users by name with an index on name.
+	 * 
+	 * @param connection
+	 */
 	private static void testRegistration(final Connection connection) {
 		final Random random = new Random();
 		Test test = new Test(REGISTRATION_TIMES) {
@@ -46,11 +58,21 @@ public class Main {
 		new Tester(test, TEST_TIMES).run();
 	}
 
+	/**
+	 * Runs all character management tests.
+	 * 
+	 * @param connection
+	 */
 	private static void testCharacterManagement(final Connection connection) {
 		testCharacterNameTaken(connection);
 		testCharacterDropdown(connection);
 	}
 
+	/**
+	 * Tests selecting Characters by name with an index on name.
+	 * 
+	 * @param connection
+	 */
 	private static void testCharacterNameTaken(final Connection connection) {
 		final Random random = new Random();
 		Test test = new Test(CHARACTER_TIMES) {
@@ -77,6 +99,11 @@ public class Main {
 		new Tester(test, TEST_TIMES).run();
 	}
 
+	/**
+	 * Tests selecting Characters by level with an index on level.
+	 * 
+	 * @param connection
+	 */
 	private static void testCharacterDropdown(final Connection connection) {
 		final User user = connection.getUser("0");
 		Test test = new Test(DROPDOWN_TIMES) {

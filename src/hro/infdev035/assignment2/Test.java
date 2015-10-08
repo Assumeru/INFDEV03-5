@@ -1,5 +1,8 @@
 package hro.infdev035.assignment2;
 
+/**
+ * Class that runs <code>runTest</code> <code>amount</code> times before and after executing <code>createIndex</code>.
+ */
 public abstract class Test implements Runnable {
 	private int amount;
 	private Result before;
@@ -25,10 +28,16 @@ public abstract class Test implements Runnable {
 		after.stop();
 	}
 
+	/**
+	 * @return The execution time in milliseconds before creating the index.
+	 */
 	public long getBefore() {
 		return before.getTime();
 	}
 
+	/**
+	 * @return The execution time in milliseconds after creating the index.
+	 */
 	public long getAfter() {
 		return after.getTime();
 	}
@@ -44,6 +53,9 @@ public abstract class Test implements Runnable {
 
 	protected abstract void runTest();
 
+	/**
+	 * Redundant helper class to record execution time.
+	 */
 	private static class Result {
 		private long start;
 		private long time;
